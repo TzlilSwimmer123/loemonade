@@ -1,12 +1,8 @@
-import json
-
 from flask import Flask, request
 
-from utils import get_data_by_url, update_words_db, save_db_to_file, count_words_in_data
+from utils import get_data_by_url, update_words_db, save_db_to_file, count_words_in_data, init_words, get_word_stat_db
 
 app = Flask(__name__)
-
-words = None
 
 
 @app.route('/count', methods=["POST"])
@@ -23,6 +19,9 @@ def count_words():
             data = file_to_count.read().decode(encoding)
         except Exception as file_exception:
             print(file_exception)
+    if data:
+        # calculates the words counters
+        res = count_words_in_data(data)
 
     else:
         # check if a url or a text was sent in the request body
@@ -33,27 +32,20 @@ def count_words():
         # if url - get the url file content
         if url:
             # check if an error occurred
-            error, data = get_data_by_url(url)
-            if not error:
-                try:
-                    # decode bytes to string
-                    data = data.decode(encoding)
-                except Exception as get_file_exception:
-                    print(get_file_exception)
-
-    if data:
-        # calculates the words counters
-        res = count_words_in_data(data)
+            error, res = get_data_by_url(url)
+        else:
+            res = count_words_in_data(data)
+    if res:
         # update the words object
-        update_words_db(words, res)
+        update_words_db(res)
         # update the json file with the current data
-        save_db_to_file(words)
+        save_db_to_file()
     return 'SUCCESS'
 
 
 @app.route('/word_statistics/<word>', methods=["GET"])
 def get_word_stat(word):
-    stat = words[word] if word in words.keys() else None
+    stat = get_word_stat_db(word)
     if stat:
         return str(stat)
     else:
@@ -62,9 +54,5 @@ def get_word_stat(word):
 
 if __name__ == '__main__':
     # read the words from the words json file to init the words object
-    try:
-        with open('static/words_db.json', 'r') as words_json_file:
-            words = json.load(words_json_file)
-    except Exception as e:
-        print(e)
+    init_words()
     app.run()
