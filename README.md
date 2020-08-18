@@ -31,7 +31,7 @@ Make sure all of the content is in English!<br />
 
 2)
 
-GET request /word_statistics/<word><br />
+GET request /word_statistics/word <br />
 the word is a the word you want to check the stats of it.<br />
 example:<br />
 /word_statistics/Shady <br/>
