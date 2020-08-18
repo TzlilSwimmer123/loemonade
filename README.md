@@ -1,4 +1,8 @@
 # loemonade
+Python version 3.6
+
+Please install all requirements before running app.py
+
 
 At the moment we supply 2 apis:
 
@@ -30,4 +34,4 @@ Make sure all of the content is in English!<br />
 GET request /word_statistics/<word><br />
 the word is a the word you want to check the stats of it.<br />
 example:<br />
-/word_statistics/Shady
+/word_statistics/Shady <br/>
