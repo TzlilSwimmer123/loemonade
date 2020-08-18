@@ -33,7 +33,7 @@ def count_words_in_data(data):
     data = data.replace("\n", " ")
     data = data.replace("\t", " ")
 
-    chars_to_replace = '0123456789.-!@#$%^&*()_+{}",<>?~`\\ '
+    chars_to_replace = "0123456789.-!@#$%^&*()_+{}:[];\"',=<>?~`\\ "
     res = {}
     for word in data.split(" "):
         word_parts = word.split("-")
@@ -41,6 +41,7 @@ def count_words_in_data(data):
             # remove all unwonted chars
             for char in chars_to_replace:
                 part = part.replace(char, "")
+            part = part.lower()
             if part in res.keys():
                 res[part] += 1
             else:
