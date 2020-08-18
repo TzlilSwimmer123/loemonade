@@ -27,8 +27,8 @@ def count_words():
     else:
         # check if a url or a text was sent in the request body
         request_data = request.json
-        data = request_data["text"] if "text" in request_data.keys() else None
-        url = request_data["url"] if "url" in request_data.keys() else None
+        data = request_data["text"] if request_data and "text" in request_data.keys() else None
+        url = request_data["url"] if request_data and "url" in request_data.keys() else None
 
         # if url - get the url file content
         if url:
