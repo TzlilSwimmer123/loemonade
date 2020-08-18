@@ -19,10 +19,10 @@ POST request /count <br />
         "url": "http://theurlthat.thefile.isin"
     }<br />
     don't send them both!<br />
-    examples:
+    examples: <br/>
     {
         "url": "https://www.w3.org/TR/PNG/iso_8859-1.txt"
-    }<br />
+    } or <br />
     {
         "text": "Hi! My name is (what?), my name is (who?), my name is Slim Shady"
     }<br />
