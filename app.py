@@ -45,7 +45,7 @@ def count_words():
 
 @app.route('/word_statistics/<word>', methods=["GET"])
 def get_word_stat(word):
-    stat = get_word_stat_db(word)
+    stat = get_word_stat_db(word.lower())
     if stat:
         return str(stat)
     else:

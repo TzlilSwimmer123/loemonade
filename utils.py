@@ -1,5 +1,6 @@
 import json
 import requests
+import shutil
 
 words = None
 
@@ -15,17 +16,14 @@ def init_words():
 
 def get_data_by_url(url):
     try:
-        r = requests.get(url, stream=True)
-        r.raise_for_status()
-        for chunk in r.iter_content(chunk_size=10000):
-            chunk_count = count_words_in_data(chunk.decode('utf-8'))
-            try:
-                update_words_db(chunk_count)
-                save_db_to_file()
-            except Exception as e:
-                print(e)
+        # get the content of the file
+        with requests.get(url, stream=True) as r:
+            data = r.content.decode('utf-8')
+            content_count = count_words_in_data(data)
+            update_words_db(content_count)
+            save_db_to_file()
         return None, None
-    except requests.exceptions.RequestException as e:
+    except (requests.exceptions.RequestException, UnicodeDecodeError) as e:
         return "error", {}
 
 
